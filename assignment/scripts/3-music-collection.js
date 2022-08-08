@@ -29,3 +29,17 @@ function showCollection(array) {
 }
 
 showCollection(collection);
+
+function findByArtist(artist) {
+    results = [];
+    for (let i = 0; i < collection.length; i++) {
+        if (artist === collection[i].artist) {
+            results.push(collection[i]);
+        }
+    }
+    return results;
+}
+
+console.log("Collection items by 'Radiohead': ", findByArtist("Radiohead"));
+console.log("Collection items by 'Fiona Apple': ", findByArtist("Fiona Apple"));
+console.log("Collection items by 'Grace Jones': ", findByArtist("Grace Jones"));
