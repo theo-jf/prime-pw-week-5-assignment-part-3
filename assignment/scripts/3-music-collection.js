@@ -43,3 +43,35 @@ function findByArtist(artist) {
 console.log("Collection items by 'Radiohead': ", findByArtist("Radiohead"));
 console.log("Collection items by 'Fiona Apple': ", findByArtist("Fiona Apple"));
 console.log("Collection items by 'Grace Jones': ", findByArtist("Grace Jones"));
+
+function search(object) {
+    results = [];
+    if (object === undefined || Object.keys(object).length === 0) {
+        return collection;
+    }
+    for (let i = 0; i < collection.length; i++) {
+        if (object.artist === collection[i].artist && object.year === collection[i].yearPublished) {
+            results.push(collection[i]);
+        }
+    }
+    return results;
+}
+
+let emptyObject = {
+}
+
+let incorrectObject = {
+    artist: "Radiohead",
+    day: 2007
+}
+
+let searchObject = {
+    artist: "Radiohead",
+    year: 2007
+}
+
+console.log("Search without input, expecting full collection: ", search());
+console.log("Search with empty object, expecting full collection: ", search(emptyObject));
+console.log("Search with object containing incorrect search parameters, expecting empty array: ", search(incorrectObject));
+console.log("Search with object with correct parameters, expecting 'In Rainbows' by Radiohead: ", search(searchObject));
+
