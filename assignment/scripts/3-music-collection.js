@@ -41,7 +41,7 @@ console.log("Album added: ", addToCollection("'IGOR'", "Tyler, The Creator", 201
                                                                                                 ["'NEW MAGIC WAND'", "3:15"], ["'A BOY IS A GUN*'", "3:30"], ["'PUPPET'", "2:59"], 
                                                                                                 ["'WHAT'S GOOD'", "3:25"], ["'GONE, GONE / THANK YOU'", "6:15"], ["'I DON'T LOVE YOU ANYMORE'", "2:41"], 
                                                                                                 ["'ARE WE STILL FRIENDS?'", "4:25"]]));
-                                                                                                
+
 console.log("Full collection: ", collection);
 
 function showCollection(array) {
@@ -72,9 +72,12 @@ console.log("Collection items by 'Radiohead': ", findByArtist("Radiohead"));
 console.log("Collection items by 'Fiona Apple': ", findByArtist("Fiona Apple"));
 console.log("Collection items by 'Grace Jones': ", findByArtist("Grace Jones"));
 
+// Make a function for track looping!!
+// Function takes value of i in the input??
+// Returns track to be pushed?
+
 function search(object) {
     let results = [];
-    let trackResults;
     if (object === undefined || Object.keys(object).length === 0) {
         return collection;
     }  
@@ -85,36 +88,30 @@ function search(object) {
             } else if (object.year === collection[i].yearPublished) {
                 results.push(collection[i]);
             } else {
-                let tracks = collection[i].tracks;
-                for (j = 0; j < tracks.length; j++) {
-                    if (object.trackName === tracks[j][0]) {
-                        results.push([tracks[j][0], collection[i]]);
-                    }
-                }
+                trackSearch(object.trackName, i, results);
             }
         } else if (Object.keys(object).length === 2) {
             if (object.artist === collection[i].artist && object.year === collection[i].yearPublished) {
                 results.push(collection[i]);
             } else if (object.year === collection[i].yearPublished || object.artist === collection[i].artist) {
-                let tracks = collection[i].tracks;
-                for (j = 0; j < tracks.length; j++) {
-                    if (object.trackName === tracks[j][0]) {
-                        results.push([tracks[j][0], collection[i]]);
-                    }
-                }
+                trackSearch(object.trackName, i, results);
             }
         } else if (Object.keys(object).length === 3) {
             if (object.artist === collection[i].artist && object.year === collection[i].yearPublished) {
-                let tracks = collection[i].tracks;
-                for (j = 0; j < tracks.length; j++) {
-                    if (object.trackName === tracks[j][0]) {
-                        results.push([tracks[j][0], collection[i]]);
-                    }
-                }
+                trackSearch(object.trackName, i, results);
             }
         }
     }
     return results;
+}
+
+function trackSearch(track, i, resultsArray) {
+    let tracks = collection[i].tracks;
+    for (j = 0; j < tracks.length; j++) {
+        if (track === tracks[j][0]) {
+            resultsArray.push(tracks[j][0], collection[i])
+        }
+    }
 }
 
 let emptyObject = {
@@ -125,14 +122,14 @@ let incorrectObject1 = {
 }
 
 let incorrectObject2 = {
-    artist: "Radiohead",
-    day: 2007
+    artist: "Ray Charles",
+    day: 1957
 }
 
 let incorrectObject3 = {
     artist: "Radiohead",
     year: 2007,
-    name: "'Videotape'"
+    trackName: "'Kid A'"
 }
 
 let searchObject1 = {
@@ -156,7 +153,7 @@ let searchObject3 = {
 
 console.log("Search without input, expecting full collection: ", search());
 console.log("Search with empty object, expecting full collection: ", search(emptyObject));
-console.log("Search with objects containing incorrect search parameters, expecting 3 empty arrays: ", search(incorrectObject1));
+console.log("Search with objects containing incorrect search parameters and / or parameters not matching any collection items, expecting 3 empty arrays: ", search(incorrectObject1));
 console.log(search(incorrectObject2));
 console.log(search(incorrectObject3));
 console.log("Search with object containing 1 correct trackName parameter, expecting 'RUNNING OUT OF TIME' from 'IGOR' by Tyler, The Creator: ", search(searchObject1));
